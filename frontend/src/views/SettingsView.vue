@@ -153,8 +153,9 @@ onMounted(refresh)
 </script>
 
 <template>
-  <div class="modal-mask" @click.self="emit('close')">
-    <div class="modal glass">
+  <Transition name="modal">
+    <div class="modal-mask" @click.self="emit('close')">
+      <div class="modal glass">
       <header class="m-head">
         <h2>⚙ 设置</h2>
         <button class="m-close" @click="emit('close')">✕</button>
@@ -271,7 +272,8 @@ onMounted(refresh)
         </button>
       </footer>
     </div>
-  </div>
+    </div>
+    </Transition>
 </template>
 
 <style scoped>
@@ -280,7 +282,6 @@ onMounted(refresh)
   background: rgba(10, 12, 20, .6);
   backdrop-filter: blur(6px);
   display: flex; align-items: center; justify-content: center;
-  animation: fadeIn .2s ease;
 }
 @keyframes fadeIn { from { opacity: 0 } }
 .modal {
@@ -343,4 +344,11 @@ onMounted(refresh)
 }
 .fade-enter-active, .fade-leave-active { transition: opacity .2s }
 .fade-enter-from, .fade-leave-to { opacity: 0 }
+
+/* 弹窗打开/关闭：从中心放大 + 弹性下沉 */
+.modal-enter-active { transition: opacity .3s var(--ease-out), transform .3s var(--ease-out); }
+.modal-leave-active { transition: opacity .15s ease, transform .15s ease; }
+.modal-enter-from { opacity: 0; transform: scale(.92) translateY(12px); }
+.modal-leave-to { opacity: 0; transform: scale(.96); }
+
 </style>

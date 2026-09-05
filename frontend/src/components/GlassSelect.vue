@@ -104,9 +104,13 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
 .gsel-item.dis { opacity: .45; cursor: not-allowed; }
 .gsel-check { color: #c4b5fd; font-size: .8rem; }
 .gsel-empty { padding: 8px 11px; color: var(--ink-dim); font-size: .82rem; }
-.gs-pop-enter-active, .gs-pop-leave-active { transition: opacity .16s ease, transform .16s var(--ease-out); }
-.gs-pop-enter-from, .gs-pop-leave-to { opacity: 0; transform: translateY(-4px) scale(.98); }
-/* 向上弹：动画从下方出现/往下方消失 */
+/* 展开/收起：弹性缩放 + 平滑位移（方向自适应：默认向下，.drop-up 向上） */
+.gs-pop-enter-active { transition: opacity .22s var(--ease-out), transform .22s cubic-bezier(.34,1.56,.64,1); transform-origin: top center; }
+.gs-pop-leave-active { transition: opacity .12s ease, transform .12s ease; transform-origin: top center; }
+.gs-pop-enter-from { opacity: 0; transform: translateY(-6px) scale(.96); }
+.gs-pop-leave-to { opacity: 0; transform: translateY(-3px) scale(.98); }
+.gsel.drop-up .gs-pop-enter-active { transform-origin: bottom center; }
+.gsel.drop-up .gs-pop-leave-active { transform-origin: bottom center; }
 .gsel.drop-up .gs-pop-enter-from { opacity: 0; transform: translateY(8px) scale(.96); }
 .gsel.drop-up .gs-pop-leave-to { opacity: 0; transform: translateY(4px) scale(.98); }
 </style>

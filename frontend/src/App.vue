@@ -200,9 +200,9 @@ onUnmounted(() => window.removeEventListener('mousemove', onMove))
 .view-wrap { padding: 4px 8px 0; /* 去掉底部的 24px */ flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .view-wrap > * { flex: 1; min-height: 0; }
 
-/* 视图切换动效 */
-.view-enter-active { transition: opacity .32s var(--ease-out), transform .32s var(--ease-out); }
-.view-leave-active { transition: opacity .16s ease, transform .16s ease; }
-.view-enter-from { opacity: 0; transform: translateY(16px) scale(.992); }
-.view-leave-to { opacity: 0; transform: translateY(-8px) scale(.995); }
+/* 视图切换动效：微缩放 + 极小位移 + 优雅淡入 */
+.view-enter-active { transition: opacity .35s var(--ease-out), transform .35s var(--ease-out); }
+.view-leave-active { transition: opacity .15s ease, transform .15s ease; }
+.view-enter-from { opacity: 0; transform: translateY(6px) scale(.99); }
+.view-leave-to { opacity: 0; transform: translateY(-4px) scale(.995); }
 </style>
