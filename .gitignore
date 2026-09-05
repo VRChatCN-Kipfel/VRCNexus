@@ -1,0 +1,22 @@
+# 依赖与构建产物
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Rust/Tauri 产物
+target/
+gen/schemas/
+
+# 日志
+*.log
+logs/
+
+# 编辑器
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# 桌面复制包（勿入库）
+Desktop-VRCNexusTauri-UI/

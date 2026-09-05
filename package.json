@@ -1,0 +1,14 @@
+{
+  "name": "vrcnexus-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "VRCNexus - VRChat automation desktop (Tauri + Vue)",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "frontend:build": "cd frontend && npm run build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}
