@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^2.11.1",
-    "vue": "^3.5.41"
+    "vue": "^3.5.41",
+    "vue3-dynamic-island": "^1.0.6"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.11.4",
