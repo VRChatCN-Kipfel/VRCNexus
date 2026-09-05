@@ -127,9 +127,9 @@ onUnmounted(() => window.removeEventListener('mousemove', onMove))
 .brand { display: flex; align-items: center; gap: 11px; padding: 2px 6px 18px; }
 .logo {
   width: 40px; height: 40px; border-radius: 13px; flex-shrink: 0; position: relative;
-  background: linear-gradient(135deg, #5b7cff, #8b5cf6);
+  background: linear-gradient(135deg, #64748b, #475569);
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 8px 24px rgba(91,124,255,.45), inset 0 1px 0 rgba(255,255,255,.3);
+  box-shadow: 0 8px 24px rgba(100,116,139,.38), inset 0 1px 0 rgba(255,255,255,.3);
   overflow: hidden;
 }
 .logo::before {
@@ -153,21 +153,21 @@ onUnmounted(() => window.removeEventListener('mousemove', onMove))
 }
 .nav-item::before {  /* 悬停微光 */
   content: ""; position: absolute; inset: 0; border-radius: inherit;
-  background: linear-gradient(90deg, rgba(108,140,255,.14), transparent 80%);
+  background: linear-gradient(90deg, rgba(148,163,184,.12), transparent 80%);
   opacity: 0; transition: opacity .25s;
 }
 .nav-item:hover { color: var(--ink); }
 .nav-item:hover::before { opacity: 1; }
 .nav-item.on {
-  background: linear-gradient(135deg, rgba(108,140,255,.28), rgba(139,92,246,.2));
-  border-color: rgba(108,140,255,.45);
+  background: linear-gradient(135deg, rgba(148,163,184,.24), rgba(100,116,139,.18));
+  border-color: rgba(148,163,184,.4);
   color: #fff;
-  box-shadow: 0 6px 20px rgba(91,124,255,.2), inset 0 1px 0 rgba(255,255,255,.15);
+  box-shadow: 0 6px 20px rgba(100,116,139,.18), inset 0 1px 0 rgba(255,255,255,.15);
 }
 .ni-icon { width: 22px; text-align: center; font-size: 1.02rem; position: relative;
   transition: transform .25s var(--ease-out); }
 .nav-item:hover .ni-icon { transform: scale(1.18); }
-.nav-item.on .ni-icon { filter: drop-shadow(0 0 6px rgba(108,140,255,.8)); }
+.nav-item.on .ni-icon { filter: drop-shadow(0 0 6px rgba(148,163,184,.7)); }
 .ni-label { position: relative; }
 .ni-ind {
   position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
@@ -193,7 +193,7 @@ onUnmounted(() => window.removeEventListener('mousemove', onMove))
   font-size: .95rem; cursor: pointer; padding: 3px 9px; border-radius: 9px;
   transition: all .2s; line-height: 1.4;
 }
-.gear-btn:hover { color: #fff; border-color: rgba(108,140,255,.5); background: rgba(108,140,255,.12); }
+.gear-btn:hover { color: #fff; border-color: rgba(148,163,184,.5); background: rgba(148,163,184,.1); }
 
 /* 主区 */
 .main { flex: 1; overflow: hidden; /* 改为 hidden，由内层组件自行滚动，避免外层滚动条挤压高度 */ border-radius: var(--radius); display: flex; flex-direction: column; min-height: 0; }

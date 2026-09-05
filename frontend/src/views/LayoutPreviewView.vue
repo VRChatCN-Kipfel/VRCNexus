@@ -209,7 +209,7 @@ watch(() => props.auth?.ok, (ok) => { if (ok) loadGroups() })
   background: rgba(255,255,255,.045); border: 1px solid var(--stroke);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
   transition: transform .3s var(--ease-out), border-color .25s, box-shadow .3s; }
-.lp-wcard:hover { transform: translateY(-3px); border-color: rgba(139,92,246,.5);
+.lp-wcard:hover { transform: translateY(-3px); border-color: rgba(148,163,184,.45);
   box-shadow: 0 16px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.1); }
 .lp-wcard:hover .lp-thumb img { transform: scale(1.05); }
 .lp-thumb { flex: 1; min-height: 0; overflow: hidden; background: rgba(0,0,0,.3); position: relative; }
@@ -229,7 +229,7 @@ watch(() => props.auth?.ok, (ok) => { if (ok) loadGroups() })
   border-radius: 10px; display: flex; align-items: center; justify-content: center;
   transition: background .2s, color .2s;
 }
-.lp-tray-btn:hover { background: rgba(139,92,246,.18); color: #fff; }
+.lp-tray-btn:hover { background: rgba(148,163,184,.15); color: #fff; }
 .lp-badge {
   position: absolute; top: -3px; right: -3px; min-width: 15px; height: 15px;
   background: #ef4444; color: #fff; font-size: .6rem; font-weight: 700;

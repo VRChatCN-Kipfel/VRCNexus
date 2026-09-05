@@ -71,7 +71,7 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
   transition: border-color .2s, background .2s; white-space: nowrap;
 }
 .gsel:hover { border-color: var(--stroke-hi); }
-.gsel.on { border-color: rgba(139,92,246,.55); }
+.gsel.on { border-color: rgba(148,163,184,.55); }
 .gsel.disabled { opacity: .5; cursor: not-allowed; }
 .gsel-label { overflow: hidden; text-overflow: ellipsis; }
 .gsel-label.ph { color: var(--ink-dim); }
@@ -98,11 +98,11 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
 }
 .gsel-item:hover { background: rgba(255,255,255,.08); color: #fff; }
 .gsel-item.on {
-  background: linear-gradient(135deg, rgba(108,140,255,.3), rgba(139,92,246,.22));
+  background: linear-gradient(135deg, rgba(148,163,184,.3), rgba(100,116,139,.22));
   color: #fff;
 }
 .gsel-item.dis { opacity: .45; cursor: not-allowed; }
-.gsel-check { color: #c4b5fd; font-size: .8rem; }
+.gsel-check { color: #a5b4cd; font-size: .8rem; }
 .gsel-empty { padding: 8px 11px; color: var(--ink-dim); font-size: .82rem; }
 /* 展开/收起：弹性缩放 + 平滑位移（方向自适应：默认向下，.drop-up 向上） */
 .gs-pop-enter-active { transition: opacity .22s var(--ease-out), transform .22s cubic-bezier(.34,1.56,.64,1); transform-origin: top center; }

@@ -312,8 +312,8 @@ onMounted(refresh)
 }
 .m-nav-item:hover { color: var(--ink); background: rgba(255,255,255,.04) }
 .m-nav-item.on {
-  background: linear-gradient(135deg, rgba(108,140,255,.22), rgba(139,92,246,.16));
-  border-color: rgba(108,140,255,.35); color: #fff;
+  background: linear-gradient(135deg, rgba(148,163,184,.2), rgba(100,116,139,.14));
+  border-color: rgba(148,163,184,.3); color: #fff;
 }
 .m-form { flex: 1; padding: 18px 22px; overflow-y: auto; }
 .f-sec { display: flex; flex-direction: column; gap: 13px; }
@@ -326,7 +326,7 @@ onMounted(refresh)
 .row { display: flex; gap: 8px; align-items: center }
 .grow { flex: 1 }
 .radio-row { display: flex; align-items: center; gap: 9px; font-size: .9rem; cursor: pointer; padding: 6px 2px }
-.radio-row input { accent-color: #6c8cff }
+.radio-row input { accent-color: #94a3b8 }
 .kv { display: flex; justify-content: space-between; gap: 12px; font-size: .85rem; padding: 5px 0; border-bottom: 1px dashed var(--stroke) }
 .kv code { font-family: var(--mono, monospace); font-size: .78rem; word-break: break-all; text-align: right }
 .small { font-size: .7rem !important }
