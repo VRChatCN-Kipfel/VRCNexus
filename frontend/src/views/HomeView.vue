@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { invoke } from '@tauri-apps/api/core'
+import { call } from '../lib/api'
 
 const props = defineProps({
   auth: Object,
@@ -47,7 +47,7 @@ function saveName() {
 async function loadGroups() {
   groupsLoading.value = true
   try {
-    groups.value = await invoke('list_groups')
+    groups.value = await call('list_groups')
     groupsErr.value = ''
     if (groups.value.length && !group.value) group.value = groups.value[0].id
   } catch (e) {
@@ -64,10 +64,10 @@ async function doCreate() {
   try {
     let worldId = wid
     if (!wid.startsWith('wrld_')) {
-      const w = await invoke('resolve_world', { token: wid })
+      const w = await call('resolve_world', { token: wid })
       worldId = w?.id || wid
     }
-    const r = await invoke('create_instance', {
+    const r = await call('create_instance', {
       args: {
         world: worldId,
         group: instanceType.value === 'group' ? group.value : null,

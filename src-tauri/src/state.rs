@@ -1,6 +1,7 @@
-//! 全局状态：API 客户端、认证用户、收藏缓存
-//! 用 Mutex 包住，跨 command 共享
+//! 全局状态：API 客户端、认证用户、配置
+//! 用 Mutex 包住，跨 command / RPC 共享。不依赖 tauri（纯 Rust，可被 GUI 与 rpc 层共同持有）。
 
+use crate::config::ConfigStore;
 use crate::vrchat::{self, Api, User};
 use std::sync::Mutex;
 
@@ -11,6 +12,8 @@ pub struct AppState {
     pub user: Mutex<Option<User>>,
     /// 认证来源
     pub auth_source: Mutex<Option<String>>,
+    /// 三模式配置
+    pub config: ConfigStore,
 }
 
 impl AppState {
@@ -19,6 +22,7 @@ impl AppState {
             api: Mutex::new(None),
             user: Mutex::new(None),
             auth_source: Mutex::new(None),
+            config: ConfigStore::new(),
         }
     }
 

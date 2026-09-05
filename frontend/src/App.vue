@@ -6,8 +6,10 @@ import SessionsView from './views/SessionsView.vue'
 import FavoritesView from './views/FavoritesView.vue'
 import ChatboxView from './views/ChatboxView.vue'
 import LayoutPreviewView from './views/LayoutPreviewView.vue' // 临时：方案A布局预览
+import SettingsView from './views/SettingsView.vue' // 设置弹窗
 
 const view = ref('layout') // 临时：默认进布局预览(方案A展示用)；看毕改回 'home'
+const showSettings = ref(false)
 const auth = ref(null)
 const authError = ref('')
 const pendingWorld = ref(null)
@@ -90,7 +92,10 @@ onUnmounted(() => window.removeEventListener('mousemove', onMove))
           <span class="dot" :class="auth?.ok ? 'ok pulse' : 'bad'"></span>
           <span class="auth-name" :title="authError">{{ auth?.ok ? auth.user.displayName : (authError || '未连接') }}</span>
         </div>
-        <div class="ver text-dim">v0.1.0 · Tauri</div>
+        <div class="rail-tools">
+          <div class="ver text-dim">v0.1.0 · Tauri</div>
+          <button class="gear-btn" title="设置" @click="showSettings = true">⚙</button>
+        </div>
       </div>
     </aside>
 
@@ -108,6 +113,9 @@ onUnmounted(() => window.removeEventListener('mousemove', onMove))
       </Transition>
     </main>
   </div>
+
+  <!-- 设置弹窗 -->
+  <SettingsView v-if="showSettings" @close="showSettings = false" />
 </template>
 
 <style scoped>
@@ -179,6 +187,13 @@ onUnmounted(() => window.removeEventListener('mousemove', onMove))
 .auth-chip.bad { border-color: rgba(248,113,113,.35); }
 .auth-chip.bad .auth-name { color: var(--bad); }
 .ver { text-align: center; font-size: .68rem; opacity: .7; }
+.rail-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.gear-btn {
+  background: transparent; border: 1px solid var(--stroke); color: var(--ink-dim);
+  font-size: .95rem; cursor: pointer; padding: 3px 9px; border-radius: 9px;
+  transition: all .2s; line-height: 1.4;
+}
+.gear-btn:hover { color: #fff; border-color: rgba(108,140,255,.5); background: rgba(108,140,255,.12); }
 
 /* 主区 */
 .main { flex: 1; overflow: hidden; /* 改为 hidden，由内层组件自行滚动，避免外层滚动条挤压高度 */ border-radius: var(--radius); display: flex; flex-direction: column; min-height: 0; }

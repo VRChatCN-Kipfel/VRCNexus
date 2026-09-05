@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { invoke } from '@tauri-apps/api/core'
+import { call } from '../lib/api'
 
 const emit = defineEmits(['picked'])
 
@@ -15,7 +15,7 @@ const err = ref('')
 async function loadGroups() {
   loading.value = true; err.value = ''
   try {
-    groups.value = await invoke('favorites_groups', { groupType: 'world' })
+    groups.value = await call('favorites_groups', { groupType: 'world' })
   } catch (e) { err.value = String(e) }
   loading.value = false
 }
@@ -24,7 +24,7 @@ async function loadWorlds() {
   if (!activeTag.value) return
   loading.value = true; err.value = ''
   try {
-    const r = await invoke('favorites_worlds', {
+    const r = await call('favorites_worlds', {
       group: activeTag.value,
       q: q.value || null,
       limit: 60,

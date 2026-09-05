@@ -4,12 +4,13 @@
 use crate::state::AppState;
 use crate::vrchat;
 use serde::Serialize;
+use std::sync::Arc;
 use tauri::State;
 
 // ---------- 认证 ----------
 
 #[tauri::command]
-pub fn auth_status(state: State<AppState>) -> Result<serde_json::Value, String> {
+pub fn auth_status(state: State<Arc<AppState>>) -> Result<serde_json::Value, String> {
     match state.authenticate() {
         Ok(u) => Ok(serde_json::json!({
             "ok": true,
@@ -21,14 +22,14 @@ pub fn auth_status(state: State<AppState>) -> Result<serde_json::Value, String> 
 }
 
 #[tauri::command]
-pub fn auth_logout(state: State<AppState>) {
+pub fn auth_logout(state: State<Arc<AppState>>) {
     state.logout();
 }
 
 // ---------- 群组 ----------
 
 #[tauri::command]
-pub fn list_groups(state: State<AppState>) -> Result<Vec<serde_json::Value>, String> {
+pub fn list_groups(state: State<Arc<AppState>>) -> Result<Vec<serde_json::Value>, String> {
     let api = state.api()?;
     let uid = state
         .user()
@@ -60,7 +61,7 @@ pub struct FavWorld {
 /// 收藏夹目录（轻量）。group_type: world(默认)/all/avatar/friend
 #[tauri::command]
 pub fn favorites_groups(
-    state: State<AppState>,
+    state: State<Arc<AppState>>,
     group_type: Option<String>,
 ) -> Result<Vec<FavGroup>, String> {
     let api = state.api()?;
@@ -84,7 +85,7 @@ pub fn favorites_groups(
 /// 某收藏夹的世界列表（内存过滤 + 分页）。group 传 tag；q 关键词；limit/offset 分页
 #[tauri::command]
 pub fn favorites_worlds(
-    state: State<AppState>,
+    state: State<Arc<AppState>>,
     group: Option<String>,
     q: Option<String>,
     limit: Option<usize>,
@@ -137,7 +138,7 @@ pub struct CreateInstanceArgs {
 /// 建房（同步快速失败）。返回 instance 信息
 #[tauri::command]
 pub fn create_instance(
-    state: State<AppState>,
+    state: State<Arc<AppState>>,
     args: CreateInstanceArgs,
 ) -> Result<serde_json::Value, String> {
     let api = state.api()?;
@@ -164,7 +165,7 @@ pub fn create_instance(
 // ---------- 世界解析（模糊找 ID）----------
 
 #[tauri::command]
-pub fn resolve_world(state: State<AppState>, token: String) -> Result<serde_json::Value, String> {
+pub fn resolve_world(state: State<Arc<AppState>>, token: String) -> Result<serde_json::Value, String> {
     if token.starts_with("wrld_") {
         let api = state.api()?;
         let v = api.get(&format!("/worlds/{token}"))?;
@@ -179,6 +180,29 @@ pub fn resolve_world(state: State<AppState>, token: String) -> Result<serde_json
         }
     }
     Err(format!("找不到世界 {token}"))
+}
+
+// ---------- 设置（三模式配置）----------
+
+/// 读取配置生效值视图（含来源 default/file/env）
+#[tauri::command]
+pub fn settings_get(state: State<Arc<AppState>>) -> serde_json::Value {
+    state.config.view()
+}
+
+/// 写配置（merge patch），返回新视图
+#[tauri::command]
+pub fn settings_set(
+    state: State<Arc<AppState>>,
+    patch: serde_json::Value,
+) -> Result<serde_json::Value, String> {
+    state.config.apply_patch(patch)
+}
+
+/// 当前模式（供前端 api.js 分派；local/service 都直调本机，仅 remote 走 RPC）
+#[tauri::command]
+pub fn app_mode(state: State<Arc<AppState>>) -> String {
+    state.config.mode()
 }
 
 // ---------- OSC 聊天 ----------

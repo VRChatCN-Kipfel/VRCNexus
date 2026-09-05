@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { invoke } from '@tauri-apps/api/core'
+import { call } from '../lib/api'
 
 const text = ref('')
 const port = ref('9000')
@@ -30,7 +30,7 @@ async function send() {
   if (!t) { err.value = '请输入消息内容'; return }
   busy.value = true; okMsg.value = ''; err.value = ''
   try {
-    const r = await invoke('send_chatbox', { args: { text: t, port: port.value ? Number(port.value) : null, notify: notify.value } })
+    const r = await call('send_chatbox', { args: { text: t, port: port.value ? Number(port.value) : null, notify: notify.value } })
     saveHist(t)
     okMsg.value = `✓ 已发送到 ${r.to}`
     text.value = ''

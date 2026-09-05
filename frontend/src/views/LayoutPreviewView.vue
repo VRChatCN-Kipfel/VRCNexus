@@ -2,7 +2,7 @@
 // 方案A v2 预览：对齐 QQ20260905-175222 参考图（双栏控制台）
 // 左 25% Session+OSC ｜ 右 75% 世界收藏大卡 + 最近记录 + 底部建房 ｜ 最右窄托盘
 import { ref, onMounted, watch } from 'vue'
-import { invoke } from '@tauri-apps/api/core'
+import { call } from '../lib/api'
 
 const props = defineProps({ auth: Object })
 
@@ -48,7 +48,7 @@ const buildMsg = ref('')
 
 async function loadGroups() {
   try {
-    groups.value = await invoke('list_groups')
+    groups.value = await call('list_groups')
     groupsErr.value = ''
     if (groups.value.length && !group.value) group.value = groups.value[0].id
   } catch (e) { groupsErr.value = String(e) }
@@ -61,7 +61,7 @@ async function doBuild() {
   if (instanceType.value === 'group' && !group.value) { buildMsg.value = '群组房需选群组'; return }
   busy.value = true
   try {
-    const r = await invoke('create_instance', {
+    const r = await call('create_instance', {
       args: {
         world: wid,
         group: instanceType.value === 'group' ? group.value : null,

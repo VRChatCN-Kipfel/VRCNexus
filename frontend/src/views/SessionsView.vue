@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { invoke } from '@tauri-apps/api/core'
+import { call } from '../lib/api'
 
 const sessions = ref([])
 const err = ref('')
