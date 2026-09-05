@@ -1,8 +1,9 @@
 <script setup>
 // 方案A v2 预览：对齐 QQ20260905-175222 参考图（双栏控制台）
 // 左 25% Session+OSC ｜ 右 75% 世界收藏大卡 + 最近记录 + 底部建房 ｜ 最右窄托盘
-import { ref, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { call } from '../lib/api'
+import GlassSelect from '../components/GlassSelect.vue'
 
 const props = defineProps({ auth: Object })
 
@@ -45,6 +46,21 @@ const groups = ref([])
 const groupsErr = ref('')
 const busy = ref(false)
 const buildMsg = ref('')
+
+// 下拉选项
+const typeOpts = [
+  { value: 'group', label: '群组房' },
+  { value: 'public', label: '公开' },
+  { value: 'friends', label: '好友' },
+  { value: 'private', label: '私密' },
+]
+const regionOpts = [
+  { value: 'jp', label: '🇯🇵 日' },
+  { value: 'usw', label: '🇺🇸 西' },
+  { value: 'use', label: '🇺🇸 东' },
+  { value: 'eu', label: '🇪🇺 欧' },
+]
+const groupOpts = computed(() => groups.value.map(g => ({ value: g.id, label: g.name })))
 
 async function loadGroups() {
   try {
@@ -150,18 +166,9 @@ watch(() => props.auth?.ok, (ok) => { if (ok) loadGroups() })
         </div>
         <div style="border-top:1px solid var(--stroke);margin-top:auto;padding-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
           <input v-model="world" class="g-input mono" style="width:230px" placeholder="世界 ID (wrld_…)" />
-          <select v-model="instanceType" class="g-select" style="width:100px">
-            <option value="group">群组房</option><option value="public">公开</option>
-            <option value="friends">好友</option><option value="private">私密</option>
-          </select>
-          <select v-if="instanceType==='group'" v-model="group" class="g-select" style="width:140px">
-            <option v-if="groupsErr" value="">{{ groupsErr }}</option>
-            <option v-for="g in groups" :key="g.id" :value="g.id">{{ g.name }}</option>
-          </select>
-          <select v-model="region" class="g-select" style="width:86px">
-            <option value="jp">🇯🇵 日</option><option value="usw">🇺🇸 西</option>
-            <option value="use">🇺🇸 东</option><option value="eu">🇪🇺 欧</option>
-          </select>
+          <GlassSelect v-model="instanceType" :options="typeOpts" style="width:100px" />
+          <GlassSelect v-if="instanceType==='group'" v-model="group" :options="groupOpts" placeholder="选择群组" style="width:140px" />
+          <GlassSelect v-model="region" :options="regionOpts" style="width:86px" />
           <button class="g-btn primary" :disabled="busy" @click="doBuild" style="flex-shrink:0">🚀 {{ busy ? '建房中…' : '建房' }}</button>
           <span v-if="buildMsg" style="font-size:.75rem" :class="buildMsg.startsWith('✅') ? 'ok' : 'bad'">{{ buildMsg }}</span>
         </div>

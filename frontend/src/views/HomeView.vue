@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { call } from '../lib/api'
+import GlassSelect from '../components/GlassSelect.vue'
 
 const props = defineProps({
   auth: Object,
@@ -24,6 +25,30 @@ const groupsLoading = ref(false)
 const busy = ref(false)
 const result = ref(null)
 const error = ref('')
+
+// 下拉选项（玻璃自绘下拉用）
+const typeOpts = [
+  { value: 'group', label: '群组房' },
+  { value: 'public', label: '公开' },
+  { value: 'friends', label: '好友' },
+  { value: 'private', label: '私密' },
+]
+const accessOpts = [
+  { value: 'public', label: '群组公开' },
+  { value: 'plus', label: '群组+' },
+  { value: 'members', label: '仅限群组' },
+]
+const regionOpts = [
+  { value: 'jp', label: '🇯🇵 日本' },
+  { value: 'usw', label: '🇺🇸 美西' },
+  { value: 'use', label: '🇺🇸 美东' },
+  { value: 'eu', label: '🇪🇺 欧洲' },
+]
+const groupOpts = computed(() => {
+  if (groupsLoading.value) return [{ value: '', label: '加载群组…', disabled: true }]
+  if (groupsErr.value) return [{ value: '', label: groupsErr.value, disabled: true }]
+  return groups.value.map(g => ({ value: g.id, label: g.name }))
+})
 
 watch(() => props.presetWorld, (v) => {
   if (v) {
@@ -125,41 +150,23 @@ watch(() => props.auth?.ok, (ok) => { if (ok) loadGroups() })
 
         <div class="field">
           <label>实例类型</label>
-          <select v-model="instanceType" class="g-select">
-            <option value="group">群组房</option>
-            <option value="public">公开</option>
-            <option value="friends">好友</option>
-            <option value="private">私密</option>
-          </select>
+          <GlassSelect v-model="instanceType" :options="typeOpts" style="width:100%" />
         </div>
 
         <template v-if="instanceType === 'group'">
           <div class="field">
             <label>群组</label>
-            <select v-model="group" class="g-select">
-              <option v-if="groupsLoading" value="">加载群组…</option>
-              <option v-else-if="groupsErr" value="">{{ groupsErr }}</option>
-              <option v-for="g in groups" :key="g.id" :value="g.id">{{ g.name }}</option>
-            </select>
+            <GlassSelect v-model="group" :options="groupOpts" placeholder="选择群组" style="width:100%" />
           </div>
           <div class="field">
             <label>可见性</label>
-            <select v-model="access" class="g-select">
-              <option value="public">群组公开</option>
-              <option value="plus">群组+</option>
-              <option value="members">仅限群组</option>
-            </select>
+            <GlassSelect v-model="access" :options="accessOpts" style="width:100%" />
           </div>
         </template>
 
         <div class="field">
           <label>区域</label>
-          <select v-model="region" class="g-select">
-            <option value="jp">🇯🇵 日本</option>
-            <option value="usw">🇺🇸 美西</option>
-            <option value="use">🇺🇸 美东</option>
-            <option value="eu">🇪🇺 欧洲</option>
-          </select>
+          <GlassSelect v-model="region" :options="regionOpts" style="width:100%" />
         </div>
 
         <div class="field">

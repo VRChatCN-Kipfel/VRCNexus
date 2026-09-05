@@ -2,6 +2,7 @@
 import { ref, reactive, onMounted, computed, watch } from 'vue'
 import { invoke } from '@tauri-apps/api/core'
 import { invalidateMode } from '../lib/api'
+import GlassSelect from '../components/GlassSelect.vue'
 
 const emit = defineEmits(['close'])
 
@@ -28,6 +29,12 @@ const form = reactive({
 
 const SOURCE_LABEL = { default: '默认', file: '配置文件', env: '环境变量', generated: '运行时生成' }
 const SOURCE_BADGE = { default: 'dim', file: 'file', env: 'env', generated: 'gen' }
+
+// 认证方式下拉选项
+const authOpts = [
+  { value: 'challenge', label: 'challenge（挑战应答，推荐）' },
+  { value: 'off', label: 'off（关闭认证，仅限本机）' },
+]
 
 function srcOf(key) {
   return rawView.value?.values?.[key]?.source || 'default'
@@ -216,10 +223,7 @@ onMounted(refresh)
               </div>
               <div class="field">
                 <label>认证方式 auth</label>
-                <select v-model="form.serviceAuth" class="g-select" :disabled="isEnv('service_auth')">
-                  <option value="challenge">challenge（挑战应答，推荐）</option>
-                  <option value="off">off（关闭认证，仅限本机）</option>
-                </select>
+                <GlassSelect v-model="form.serviceAuth" :options="authOpts" :disabled="isEnv('service_auth')" style="width:100%" />
                 <em v-if="isEnv('service_auth')" class="badge env">环境变量</em>
                 <div v-if="authOffInvalid" class="msg bad">关闭认证仅限本机地址——请把 bind 改回 127.0.0.1/localhost 或改用 challenge。</div>
               </div>
