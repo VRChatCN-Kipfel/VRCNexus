@@ -20,3 +20,10 @@ logs/
 
 # 桌面复制包（勿入库）
 Desktop-VRCNexusTauri-UI/
+
+# 未授权素材（重要）：以下图片未取得商用授权，禁止推送远端/开源
+# 使用绝对路径模式（以 / 开头锚定仓库根）防止误放行同名文件；
+# 需要使用时本地自行放置，不要 commit。
+/frontend/public/bg.jpg
+/frontend/public/bg-blur.jpg
+/frontend/public/*.webp
