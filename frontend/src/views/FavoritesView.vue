@@ -1,3 +1,8 @@
+<!-- FavoritesView：世界收藏页
+  读取 VRChat 云端收藏夹(favorites_groups/worlds)：分组 pills + 世界网格
+  点选世界 emit picked → 跳建房页预填
+-->
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { call } from '../lib/api'

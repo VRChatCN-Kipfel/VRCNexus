@@ -1,3 +1,8 @@
+<!-- HomeView：建房页
+  世界ID(支持别名) + 实例类型 + 群组/可见性 + 区域 + 排队/年龄门控
+  调 Rust create_instance；群组列表来自 list_groups
+-->
+
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { call } from '../lib/api'

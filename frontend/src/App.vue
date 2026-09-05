@@ -1,3 +1,8 @@
+<!-- App.vue：应用壳
+  左侧药丸导航 + 主视图切换 + 预烘焙背景 + 全局 spotlight 光晕
+  视图: home建房 / sessions会话 / favorites收藏 / chatbox聊天 / layout布局预览
+-->
+
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { invoke } from '@tauri-apps/api/core'

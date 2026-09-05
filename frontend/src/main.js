@@ -1,3 +1,6 @@
+// VRCNexus 入口：创建 Vue 应用 + Tauri 环境校验
+// 非 Tauri 环境(浏览器直开)显示阻断页——本项目是桌面应用，不提供网页版
+
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'

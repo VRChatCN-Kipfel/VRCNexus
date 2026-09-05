@@ -27,3 +27,6 @@ Desktop-VRCNexusTauri-UI/
 /frontend/public/bg.jpg
 /frontend/public/bg-blur.jpg
 /frontend/public/*.webp
+
+# UI worktree 说明(不属于主仓库)
+/README-UI说明.md

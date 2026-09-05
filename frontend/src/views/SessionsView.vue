@@ -1,3 +1,7 @@
+<!-- SessionsView：Session 会话页(占位)
+  SessionManager(进程管理/启动队列) Rust 后端实现中，当前为空态占位
+-->
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { call } from '../lib/api'

@@ -1,3 +1,7 @@
+<!-- ChatboxView：OSC 聊天推送
+  向指定实例(或默认 9000)的 OSC /chatbox/input 发消息，带最近消息历史
+-->
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { call } from '../lib/api'

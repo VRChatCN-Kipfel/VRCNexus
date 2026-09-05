@@ -1,3 +1,8 @@
+<!-- SettingsView：设置弹窗
+  三模式配置(local/remote/service) + RPC 服务参数 + 环境变量来源只读标记
+  调 Rust settings_get/set；保存后 invalidateMode 触发重载
+-->
+
 <script setup>
 import { ref, reactive, onMounted, computed, watch } from 'vue'
 import { invoke } from '@tauri-apps/api/core'
