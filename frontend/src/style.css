@@ -54,7 +54,7 @@ textarea {
   inset: 0;
   z-index: -2;
   overflow: hidden;
-  background: url('/bg.jpg') center/cover no-repeat fixed;
+  background: url('/bg.webp') center/cover no-repeat fixed;
   filter: blur(2px) brightness(.62) saturate(.7);
   transform: scale(1.02);
 }
