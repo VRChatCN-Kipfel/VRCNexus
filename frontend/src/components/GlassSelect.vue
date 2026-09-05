@@ -13,6 +13,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'change'])
 
 const open = ref(false)
+const dropUp = ref(false) // 空间不足时向上弹出
 const rootEl = ref(null)
 
 const label = computed(() => {
@@ -20,7 +21,16 @@ const label = computed(() => {
   return hit ? hit.label : props.placeholder
 })
 
-function toggle() { if (!props.disabled) open.value = !open.value }
+function toggle() {
+  if (props.disabled) return
+  if (!open.value) {
+    // 打开前预估：下方剩余空间不够放下拉 → 改为向上弹（避免溢出窗口/被底部截断）
+    const estH = Math.min(260, props.options.length * 34 + 22)
+    const btn = rootEl.value?.getBoundingClientRect()
+    dropUp.value = btn ? (btn.bottom + 8 + estH) > (window.innerHeight - 8) : false
+  }
+  open.value = !open.value
+}
 function pick(o) {
   if (o.disabled) return
   emit('update:modelValue', o.value)
@@ -35,7 +45,7 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
 </script>
 
 <template>
-  <div ref="rootEl" class="gsel" :class="{ on: open, disabled }" :style="width ? { width } : {}" @click.stop="toggle">
+  <div ref="rootEl" class="gsel" :class="{ on: open, disabled, 'drop-up': dropUp }" :style="width ? { width } : {}" @click.stop="toggle">
     <span class="gsel-label" :class="{ ph: !options.some(o => String(o.value) === String(modelValue)) }">{{ label }}</span>
     <span class="gsel-arrow">▾</span>
     <Transition name="gs-pop">
@@ -68,12 +78,19 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
 .gsel-arrow { color: var(--ink-dim); font-size: .75rem; flex-shrink: 0; transition: transform .2s; }
 .gsel.on .gsel-arrow { transform: rotate(180deg); }
 .gsel-drop {
-  position: absolute; top: calc(100% + 6px); left: 0; min-width: 100%;
+  position: absolute; left: 0; min-width: 100%;
   background: rgba(18, 22, 36, .97);
   backdrop-filter: blur(20px); border: 1px solid var(--stroke);
   border-radius: 13px; padding: 5px; z-index: 60;
   box-shadow: 0 14px 34px rgba(0,0,0,.6); max-height: 260px; overflow-y: auto;
+  top: calc(100% + 6px); bottom: auto; /* 默认向下弹 */
 }
+.gsel.drop-up .gsel-drop {
+  top: auto; bottom: calc(100% + 6px); /* 空间不足 → 向上弹 */
+  box-shadow: 0 -12px 30px rgba(0,0,0,.6);
+}
+.gsel-drop { transform-origin: top center; }
+.gsel.drop-up .gsel-drop { transform-origin: bottom center; }
 .gsel-item {
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
   padding: 8px 11px; border-radius: 9px; cursor: pointer; font-size: .87rem;
@@ -89,4 +106,7 @@ onUnmounted(() => document.removeEventListener('click', onDocClick))
 .gsel-empty { padding: 8px 11px; color: var(--ink-dim); font-size: .82rem; }
 .gs-pop-enter-active, .gs-pop-leave-active { transition: opacity .16s ease, transform .16s var(--ease-out); }
 .gs-pop-enter-from, .gs-pop-leave-to { opacity: 0; transform: translateY(-4px) scale(.98); }
+/* 向上弹：动画从下方出现/往下方消失 */
+.gsel.drop-up .gs-pop-enter-from { opacity: 0; transform: translateY(8px) scale(.96); }
+.gsel.drop-up .gs-pop-leave-to { opacity: 0; transform: translateY(4px) scale(.98); }
 </style>
